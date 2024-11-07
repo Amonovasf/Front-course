@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Викторина</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1>Викторина</h1>
+            <p>Ответьте на 10 вопросов!</p>
+        </div>
+
+        <div id="quiz">
+            <div id="question-container">
+                <div id="question">Вопрос 1</div>
+                <div class="options">
+                    <button class="option" data-id="0">Ответ 1</button>
+                    <button class="option" data-id="1">Ответ 2</button>
+                    <button class="option" data-id="2">Ответ 3</button>
+                    <button class="option" data-id="3">Ответ 4</button>
+                </div>
+            </div>
+
+            <div id="result" class="hidden">
+                <h2>Ваш результат: <span id="score">0</span>/10</h2>
+                <button id="retry">Попробовать снова</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                question: "Какой язык программирования используется для создания веб-страниц?",
+                options: ["Python", "JavaScript", "C++", "Java"],
+                answer: 1
+            },
+            {
+                question: "Какая планета является самой крупной в нашей солнечной системе?",
+                options: ["Земля", "Марс", "Юпитер", "Сатурн"],
+                answer: 2
+            },
+            {
+                question: "Какой океан является самым большим?",
+                options: ["Атлантический", "Тихий", "Индийский", "Южный"],
+                answer: 1
+            },
+            {
+                question: "Какая страна является родиной олимпийских игр?",
+                options: ["Греция", "Египет", "Италия", "Франция"],
+                answer: 2
+            },
+            {
+                question: "Сколько дней в високосном году?",
+                options: ["364", "365", "366", "367"],
+                answer: 3
+            },
+            {
+                question: "Что такое HTML?",
+                options: ["Язык программирования", "Система управления базами данных", "Язык разметки гипертекстов", "Система управления проектами"],
+                answer: 4
+            },
+            {
+                question: "Какой элемент является основой структуры веб-страницы?",
+                options: ["<div>", "<section>", "<header>", "<body>"],
+                answer: 5
+            },
+            {
+                question: "Какое самое большое животное на Земле?",
+                options: ["Слон", "Кит", "Жираф", "Белый медведь"],
+                answer: 6
+            },
+            {
+                question: "Какая столица России?",
+                options: ["Санкт-Петербург", "Новосибирск", "Москва", "Владивосток"],
+                answer: 7
+            },
+            {
+                question: "Какой элемент периодической таблицы имеет атомный номер 1?",
+                options: ["Гелий", "Кислород", "Водород", "Углерод"],
+                answer: 8
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const questionData = quizData[currentQuestionIndex];
+            document.getElementById('question').textContent = questionData.question;
+            const options = document.querySelectorAll('.option');
+            options.forEach((btn, index) => {
+                btn.textContent = questionData.options[index];
+                btn.classList.remove('correct', 'incorrect'); // Сброс стилей
+                btn.disabled = false; // Разблокировать кнопки для следующего вопроса
+                btn.addEventListener('click', () => checkAnswer(index));
+            });
+        }
+
+        function checkAnswer(selectedIndex) {
+            const correctAnswer = quizData[currentQuestionIndex].answer;
+            const options = document.querySelectorAll('.option');
+
+            // Подсветить правильный ответ
+            if (selectedIndex === correctAnswer) {
+                options[selectedIndex].classList.add('correct');
+                score++;
+            } else {
+                options[selectedIndex].classList.add('incorrect');
+                options[correctAnswer].classList.add('correct');
+            }
+
+            // Блокируем кнопки после выбора
+            options.forEach(btn => btn.disabled = true);
+
+            // Переход к следующему вопросу или завершение викторины
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < quizData.length) {
+                    loadQuestion();
+                } else {
+                    showResult();
+                }
+            }, 1000); // Задержка 1 секунда перед переходом к следующему вопросу
+        }
+
+        function showResult() {
+            document.getElementById('quiz').style.display = 'none';
+            const resultElement = document.getElementById('result');
+            resultElement.classList.remove('hidden');
+            document.getElementById('score').textContent = score;
+        }
+
+        function retryQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            document.getElementById('quiz').style.display = 'block';
+            document.getElementById('result').classList.add('hidden');
+            loadQuestion();
+        }
+
+        document.getElementById('retry').addEventListener('click', retryQuiz);
+
+        loadQuestion();
+
+    </script>
+</body>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .quiz-container {
+        background-color: #fff;
+        border-radius: 8px;
+        width: 500px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+
+    .quiz-header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    h1 {
+        font-size: 24px;
+        color: #333;
+    }
+
+    .options button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        font-size: 16px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .options button:hover {
+        background-color: #e0e0e0;
+    }
+
+    .correct {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .incorrect {
+        background-color: #f44336;
+        color: white;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    #result {
+        text-align: center;
+    }
+
+    #retry {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #retry:hover {
+        background-color: #45a049;
+    }
+</style>
+
+</html>

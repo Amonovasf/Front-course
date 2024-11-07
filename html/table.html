@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Table Theme</title>
 </head>
-<body>
-    
 
-    <table border="1px">
+<body>
+
+
+    <p>
+        Lorem ipsum <span contenteditable=""></span> dolor sit amet.
+    </p>
+
+
+    <table border="1px" bordercolor="black">
         <tr>
             <th>text</th>
             <th colspan="2">text</th>
@@ -28,24 +35,37 @@
             <td>text</td>
             <td>text</td>
         </tr>
+   
     </table>
-
+    
 
 </body>
+
 <style>
+
 
     table{
         width: 100%;
-        height: 250px;
+        /* height: 90vh; */
+        height: 300px;
     }
 
-    th,td{
-        text-align: left;
+
+    td,th{
         text-align: right;
+        text-align: left;
         text-align: center;
-        vertical-align: middle;
         vertical-align: top;
         vertical-align: bottom;
+        vertical-align: middle;
+    }
+
+
+    p span{
+        display: inline-block;
+        border-bottom: 2px dotted red;
+        min-width: 40px;
     }
 </style>
+
 </html>
