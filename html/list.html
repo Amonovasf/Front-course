@@ -16,6 +16,9 @@
     <br>
     <a href="table.html">table.html</a>
     <br>
+    <br>
+    <a href="list.html">list.html</a>
+    <br>
     <a id="back" href="#testbookmark">For New Message</a>
 
 
@@ -63,6 +66,11 @@
         <p id="testbookmark">New Message2</p>
     </a>
 
+
+    <marquee behavior="alternate" direction="right" truespeed scrolldelay="65" scrollamount="6">
+        Lorem ipsum dolor sit amet.
+    </marquee>
+
     <marquee 
     class="m1" 
     height="250px" 
@@ -70,14 +78,24 @@
     behavior="alternate" 
     direction="up"
     truespeed
-    scrolldelay="40"
-    >
-        <marquee behavior="alternate" direction="" truespeed scrolldelay="30">
+    scrolldelay="40">
+    <marquee 
+    behavior="alternate" 
+    direction="" 
+    truespeed 
+    scrolldelay="30">
             <img src="/img/pepsi-logo.png" alt="" width="75px" height="75px">
         </marquee>
     </marquee>
 </body>
 <style>
+
+    html{
+        scroll-behavior: smooth;
+    }
+
+    
+
     .m1{
         border: 1px solid black;
     }
